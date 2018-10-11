@@ -1,0 +1,10 @@
+\BOOKMARK [1][-]{section.1}{T1}{}% 1
+\BOOKMARK [1][-]{section.2}{T2}{}% 2
+\BOOKMARK [1][-]{section.3}{compare \046 comment}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{compare:}{section.3}% 4
+\BOOKMARK [3][-]{subsubsection.3.1.1}{the time taken by SGD case is much shorter than the original SVM model. simply because we take in only one data point at a time, the time complexity is O\(iteration\) but for the SVM case the time complexity is O\(n\) so there is a time boost in SGD case.}{subsection.3.1}% 5
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Meanwhile, we can see that the performance of SGD is about the same or a little higher than the SVM package in sklearn under the same hyperparameter C.}{subsection.3.1}% 6
+\BOOKMARK [2][-]{subsection.3.2}{comment:}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.2.1}{SGD method is a good way to implement SVM, because of its time complexity and accuracy performance.}{subsection.3.2}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.2}{we can find out that in the SGD case. To simplify the problem and reduce the computational complexity, I did not use the mapping h\(x\). I directly use the x. Maybe a proper h\(x\) can boost the performance of SGD again.}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Higher performance maybe due to the reason that SGD is actually not finding the optimal of the original problem rather a ball around the optimal. So, this means when the case happens that the original SVM with the hyperparameter which is overfitting. The SGD is like a regulation to the optimal problem. Thus having a higher performance in the testing set.}{subsection.3.2}% 10
