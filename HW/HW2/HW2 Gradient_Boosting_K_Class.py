@@ -27,6 +27,7 @@ class K_GBoost():
         
     @staticmethod 
     # this function is weighted sum
+    # to compute fk
     def f_val(f_set, X):
         f = 0
         for i in range(len(f_set)):
@@ -43,12 +44,13 @@ class K_GBoost():
     # this funtion is aimed to convert the y vector
     # into the indicator vector
     def y_indicator(y, k, element):
+        z = np.array(y)
         targat = element[k]
-        index = y == targat
-        y[index] = 1
+        index = z == targat
+        z[index] = 1
         rev = np.array([not i for i in index]).reshape(-1,)
-        y[rev] = 0
-        return y
+        z[rev] = 0
+        return z
     @staticmethod
     def cur_f(reg_tree, gamma, X, reg_room):
         pred = reg_tree.predict(X)
@@ -59,42 +61,56 @@ class K_GBoost():
         return f_val
 
     def fit(self):
-        # initial the f
-        f = self.init
-        # f_set is a collection of classifier
-        f_set = list()
+        # initial the F and P matrix, both are n y k
+        F = list()
+        # k_f_set is a collection of classifier for the k class
         # add the init classifier to the f_set, return 0 column
-        f_set.append(lambda X: np.zeros(X.shape[0]))
-        
-        for i in range(self.Max_iter):
-            f = self.f_val(f_set, self.X)
-            assert len(f) == self.K
-            # set p_k
-            p = self.p(f)
-            
+        for i in range(self.K):
+            k_f_set = [lambda X: np.zeros(X.shape[0])] * self.Max_iter
+            F.append(k_f_set)
+        assert len(F) == self.K and len(F[0]) == self.Max_iter
+
+        P = np.zeros((self.X.shape[0], self.K))
+
+
+        for m in range(self.Max_iter):
+
             for k in range(self.K):
+                k_f_set = F[k]
+                f = self.f_val(k_f_set, self.X)
+                assert len(f) == self.X.shape[0]
+                # set pk
+                P[:,k] = self.p(f)
+                pk = P[:,k].T
+
                 y_k = self.y_indicator(self.y, k, self.element)
-                r = y_k - p
+                rk = y_k - pk
+
                 self.reg_tree = tree.DecisionTreeRegressor()
-                self.reg_tree = self.reg_tree.fit(self.X, r)
+                self.reg_tree = self.reg_tree.fit(self.X, rk)
+
                 # all prediction value
-                cluster_X = self.reg_tree.predict(self.X)
+                reg_X_train = self.reg_tree.predict(self.X)
                 # reg_room is the distinct regression value in increasing manner
-                reg_rooms = np.unique(cluster_X)
+                reg_rooms = np.unique(reg_X_train)
                 # preallocation the gamma vector
                 gamma = np.zeros(len(reg_rooms))
-
+                
                 for j, room_num in enumerate(reg_rooms):
                     cur_cluster = reg_rooms[j]
-                    index_X_in = cluster_X == cur_cluster
-                    nu = sum(r[index_X_in])
-                    de = sum(np.abs(r[index_X_in])*(1-np.abs(r[index_X_in])))
+                    index_X_in = reg_X_train == cur_cluster
+                    nu = sum(rk[index_X_in])
+                    de = sum(np.abs(rk[index_X_in])*(1-np.abs(rk[index_X_in])))
                     gamma[j] = ((self.K - 1) / self.K) * (nu/de)
 
-                f_set.append(lambda X: self.cur_f(self.reg_tree, gamma, X, reg_rooms))
-        self.f_model = f_set
+                F[k][m]=lambda X: self.cur_f(self.reg_tree, gamma, X, reg_rooms)
+        self.f_model = F
     def predict(self,X):
-        return self.f_val(self.f_model,X)
+        pred = np.zeros((X.shape[0],self.K))
+        for k in range(self.K):
+            k_model = self.f_model[k]
+            pred[:,k] = self.f_val(k_model,X)
+        return pred
 
 
 if __name__ == '__main__':
