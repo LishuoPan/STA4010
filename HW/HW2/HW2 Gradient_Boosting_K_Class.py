@@ -11,7 +11,7 @@ from sklearn import tree
 # Here I define a class as an agent to do
 # Gradient Boosting for K-Class Classification
 class K_GBoost():
-    def __init__(self,X,y,M,init,element):
+    def __init__(self,X,y,M,element):
         # Input:
         # X: X train matrix dimention: n by d
         # y: y train: n by 1
@@ -20,7 +20,6 @@ class K_GBoost():
         self.X = X
         self.y = y
         self.Max_iter = M
-        self.init = init
         self.K = len(element)
         self.element = element
         
@@ -37,9 +36,10 @@ class K_GBoost():
     @staticmethod
     # this method is aimed to 
     def p(f):
+        # f.dtype = "float64"
         print(f)
         return np.exp(f) / np.sum(np.exp(f))
-    
+
     @staticmethod
     # this funtion is aimed to convert the y vector
     # into the indicator vector
@@ -49,7 +49,7 @@ class K_GBoost():
         index = z == targat
         z[index] = 1
         rev = np.array([not i for i in index]).reshape(-1,)
-        z[rev] = 0
+        z[rev] = -1
         return z
     @staticmethod
     def cur_f(reg_tree, gamma, X, reg_room):
@@ -69,9 +69,9 @@ class K_GBoost():
             k_f_set = [lambda X: np.zeros(X.shape[0])] * self.Max_iter
             F.append(k_f_set)
         assert len(F) == self.K and len(F[0]) == self.Max_iter
-
+        print(F)
         P = np.zeros((self.X.shape[0], self.K))
-
+        print(P)
 
         for m in range(self.Max_iter):
 
@@ -86,18 +86,20 @@ class K_GBoost():
                 y_k = self.y_indicator(self.y, k, self.element)
                 rk = y_k - pk
 
-                self.reg_tree = tree.DecisionTreeRegressor()
+                self.reg_tree = tree.DecisionTreeRegressor(max_depth=1)
                 self.reg_tree = self.reg_tree.fit(self.X, rk)
 
                 # all prediction value
                 reg_X_train = self.reg_tree.predict(self.X)
+                reg_X_train = np.array(reg_X_train,dtype = "float16")
                 # reg_room is the distinct regression value in increasing manner
                 reg_rooms = np.unique(reg_X_train)
                 # preallocation the gamma vector
                 gamma = np.zeros(len(reg_rooms))
-                
+
                 for j, room_num in enumerate(reg_rooms):
                     cur_cluster = reg_rooms[j]
+                    # index of X_train fell into the j-th room
                     index_X_in = reg_X_train == cur_cluster
                     nu = sum(rk[index_X_in])
                     de = sum(np.abs(rk[index_X_in])*(1-np.abs(rk[index_X_in])))
@@ -161,8 +163,8 @@ if __name__ == '__main__':
     K = len(element)
 
 
-    init = np.zeros(K).reshape(-1,1)
-    GBoost = K_GBoost(train_x,train_y,2,init,element)
+
+    GBoost = K_GBoost(train_x,train_y,3,element)
     model = GBoost.fit()
     pred = GBoost.predict(test_x)
 
