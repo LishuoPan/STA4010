@@ -186,7 +186,9 @@ if __name__ == '__main__':
 
     for trial,iter in enumerate(M):
         GBoost = K_GBoost(train_x,train_y,iter,element)
+        # print("the Gradient Boosting model is training...")
         model = GBoost.fit()
+        # print("prediction start...")
         pred = GBoost.predict(test_x)
         # print(pred)
         pred_class = GBoost.p(K,pred)
@@ -200,9 +202,9 @@ if __name__ == '__main__':
                 pred_final[i] = -1
         Acu[trial] = sum(pred_final==test_y)/len(test_y)
     # print the iteration and corresponding Acu
-    print(M)
-    print(Acu)
-    # plot the
+    print("the iteration List:\n",M)
+    print("the Accuracy List:\n",Acu)
+    # plot the result
     plt.plot(M,Acu)
     plt.xlabel("the iteration number")
     plt.ylabel("the Accuracy")
