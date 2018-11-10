@@ -1,5 +1,17 @@
+
 # coding: utf-8
 
+# # T1
+# ## The first part is the implement of the algorithm as a class in python. I use the sub-model as regression tree with max depth 2.
+# ## the second part is the apply the algorithm on the dataset specified in the HW1
+# ## I also plot the Accuracy vs number of iterations in the plot.
+# ## and print out the Accuracy & number of iterations
+
+# In[1]:
+
+
+# coding: utf-8
+# get_ipython().run_line_magic('matplotlib', 'inline')
 # import the basic packages for the problem
 # no fancy packages.
 import numpy as np
@@ -21,9 +33,9 @@ class K_GBoost():
         self.Max_iter = M
         self.K = len(element)
         self.element = element
-        
-        
-    @staticmethod 
+
+
+    @staticmethod
     # this function is weighted sum
     # to compute fk
     def f_val(f_set, X,k):
@@ -31,7 +43,7 @@ class K_GBoost():
         for i in range(len(f_set)):
             f += f_set[i](X,k,i)
         return f
-    
+
     @staticmethod
     # this method is aimed to compute the P matrix
     def p(k,f):
@@ -99,7 +111,7 @@ class K_GBoost():
                 y_k = self.y_indicator(self.y, k, self.element)
                 rk = y_k - pk
 
-                # Use a simple tree in each sub-classifier
+                # Use a simple tree in each sub-classifier Max depth is 2.
                 reg_tree_set[k][m] = tree.DecisionTreeRegressor(max_depth=2)
                 reg_tree_set[k][m] = reg_tree_set[k][m].fit(self.X, rk)
 
@@ -130,6 +142,9 @@ class K_GBoost():
             k_model = self.f_model[k]
             pred[:,k] = self.f_val(k_model,X,k)
         return pred
+
+
+# In[2]:
 
 
 if __name__ == '__main__':
@@ -172,7 +187,7 @@ if __name__ == '__main__':
     test_x = np.vstack((test_x1,test_x2))
     test_y = np.hstack((test_y1,test_y2))
 
-    print('the size of the testing dataset is:',test_x.shape)
+    print('the size of the testing dataset is:\n',test_x.shape)
     print(test_y.shape)
 
     # define the distinct element & class K
@@ -209,9 +224,4 @@ if __name__ == '__main__':
     plt.xlabel("the iteration number")
     plt.ylabel("the Accuracy")
     plt.show()
-
-
-
-
-
 
