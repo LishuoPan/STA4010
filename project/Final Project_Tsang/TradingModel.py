@@ -50,8 +50,8 @@ class TradingModel:
 
 
         pass
-    def GaussianProcessRegression(self):
-        kern1 = GPy.kern.sde_StdPeriodic()
+    # def GaussianProcessRegression(self):
+    #     kern1 = GPy.kern.sde_StdPeriodic()
 
     def sell_stock(self,y_bid):
         for index, eval in self.stock:
@@ -135,7 +135,7 @@ class TradingModel:
             else:
                 # prediction
                 [X_tr_t, y_tr_bid, y_tr_ask] = self.Train_Matrix_t(t,X_te,y_bid,y_ask)
-                [WLS_model_bid, WLS_model_ask] = self.WLS_regression(X_tr_t,y_tr_bid,y_tr_ask,p=1)
+                [WLS_model_bid, WLS_model_ask] = self.WLS_regression(X_tr_t,y_tr_bid,y_tr_ask,p=4)
                 X_pred = self.Test_Matrix_t(t,X_te)
                 bid_pred = WLS_model_bid.predict(X_pred)
                 ask_pred = WLS_model_ask.predict(X_pred)
