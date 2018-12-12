@@ -8,6 +8,6 @@ from sklearn.linear_model import LinearRegression
 
 # construct packages
 class TradingModel:
-    def __init__(self):
+    def __init__(self, X_tr, ):
 
 

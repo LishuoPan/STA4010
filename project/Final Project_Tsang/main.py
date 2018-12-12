@@ -59,8 +59,14 @@ def StrucData(ls, cut = 1):
     data_matrix = np.vstack(data_frame)
     data_matrix = np.delete(data_matrix,0,axis=1)
 
-    print(len(data_matrix))
-    return data_matrix
+    train_time = len(data_matrix)
+    time = np.linspace(1,train_time,train_time)
+    data_matrix = np.hstack((time.reshape(-1,1),data_matrix))
+    feature = data_matrix[:,(0,2,4)]
+    y_bid = data_matrix[:,1]
+    y_ask = data_matrix[:, 3]
+    print(data_matrix)
+    return y_bid,y_ask,feature
 # training phase
     # report model
 
@@ -68,9 +74,14 @@ def StrucData(ls, cut = 1):
     # print result
 
 if __name__ == '__main__':
-    X_tr = StrucData(("./training_data/Day1.csv",
-                      "./training_data/Day2.csv",
-                      "./training_data/Day3.csv",
-                      "./training_data/Day4.csv"), cut=1)
+    cut = 1
+    # read and structure training data
+    [y_bid, y_ask, X_tr] = StrucData(("./training_data/Day1.csv",
+                                      "./training_data/Day2.csv",
+                                      "./training_data/Day3.csv",
+                                      "./training_data/Day4.csv"), cut)
+    Model = TradingModel(X_tr,y_bid,y_ask)
+    # read and structure testing data
+    [y_bid, y_ask, X_tr] = StrucData(("./testing_data/Day5.csv"),cut)
 
     # model = TradingModel()
