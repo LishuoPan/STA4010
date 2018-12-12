@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import math
 from TradingModel import TradingModel
-
+import matplotlib.pyplot as plt
 
 def CompleteData(Matrix_array):
     # This module is used to complete the data
@@ -67,22 +67,28 @@ def StrucData(ls, cut = 1):
     y_bid = data_matrix[:,1]
     y_ask = data_matrix[:, 3]
     # print(data_matrix)
-    return y_bid,y_ask,feature
+    return feature,y_bid,y_ask
 # training phase
     # report model
 
 # testing phase
     # print result
 
+
+
 if __name__ == '__main__':
     cut = 1
     # read and structure training data
-    [y_bid, y_ask, X_tr] = StrucData(("./training_data/Day1.csv",
+    [X_tr, y_bid, y_ask] = StrucData(["./training_data/Day1.csv",
                                       "./training_data/Day2.csv",
                                       "./training_data/Day3.csv",
-                                      "./training_data/Day4.csv"), cut)
-    # Model = TradingModel(X_tr,y_bid,y_ask,100)
+                                      "./training_data/Day4.csv"], cut)
+    time_tr = X_tr.shape[0]
     # read and structure testing data
-    # [y_bid, y_ask, X_tr] = StrucData(("./testing_data/Day5.csv"),cut)
+    [X_te, y_bid, y_ask] = StrucData(["./testing_data/Day5.csv"],cut)
+    # add the past time to the test data
+    X_te[:,0] = X_te[:,0]+time_tr
+    Model = TradingModel(X_tr,y_bid,y_ask,100)
+    Model.process(X_te,y_bid,y_ask)
 
     # model = TradingModel()
