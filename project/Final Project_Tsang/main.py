@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 import math
+from TradingModel import TradingModel
 
 
 def CompleteData(Matrix_array):
@@ -65,7 +66,7 @@ def StrucData(ls, cut = 1):
     feature = data_matrix[:,(0,2,4)]
     y_bid = data_matrix[:,1]
     y_ask = data_matrix[:, 3]
-    print(data_matrix)
+    # print(data_matrix)
     return y_bid,y_ask,feature
 # training phase
     # report model
@@ -80,8 +81,8 @@ if __name__ == '__main__':
                                       "./training_data/Day2.csv",
                                       "./training_data/Day3.csv",
                                       "./training_data/Day4.csv"), cut)
-    Model = TradingModel(X_tr,y_bid,y_ask)
+    # Model = TradingModel(X_tr,y_bid,y_ask,100)
     # read and structure testing data
-    [y_bid, y_ask, X_tr] = StrucData(("./testing_data/Day5.csv"),cut)
+    # [y_bid, y_ask, X_tr] = StrucData(("./testing_data/Day5.csv"),cut)
 
     # model = TradingModel()
