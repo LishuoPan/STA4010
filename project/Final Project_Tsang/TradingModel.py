@@ -3,7 +3,6 @@
 # load packages
 # import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 # from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
@@ -26,8 +25,8 @@ class TradingModel:
         self.split = 30
         self.stock = list()
         self.short_sell = list()
-        self.inventory_Max = self.split
-        self.hold_max = 500
+        self.inventory_Max = 50
+        self.hold_max = np.inf
         self.resampling = 2
         print("Money at the Begining of the day:", self.money)
 

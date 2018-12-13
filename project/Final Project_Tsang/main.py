@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 import math
 from TradingModel import TradingModel
-import matplotlib.pyplot as plt
 
 def CompleteData(Matrix_array):
     # This module is used to complete the data
@@ -78,12 +77,17 @@ def StrucData(ls, cut = 1):
 
 
 if __name__ == '__main__':
-    cut = 1
+    cut = 0
     # read and structure training data
 
+    # [X_tr, y_bid_tr, y_ask_tr] = StrucData(["./training_data/Day1.csv",
+    #                                         "./training_data/Day2.csv",
+    #                                         "./training_data/Day3.csv",
+    #                                         "./training_data/Day4.csv"], cut)
+
     [X_tr, y_bid_tr, y_ask_tr] = StrucData(["./training_data/Day1.csv",
-                                      "./training_data/Day2.csv",
-                                      "./training_data/Day3.csv"], cut)
+                                            "./training_data/Day2.csv",
+                                            "./training_data/Day3.csv"], cut)
     time_tr = X_tr.shape[0]
     # read and structure testing data
     [X_te, y_bid_te, y_ask_te] = StrucData(["./testing_data/Day4.csv"],cut)
