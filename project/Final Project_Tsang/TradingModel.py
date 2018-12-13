@@ -20,7 +20,7 @@ class TradingModel:
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
         self.money = money
-        self.train_size = 200
+        self.train_size = 1000
         self.pred_size = 20
         self.split = 30
         self.stock = list()
