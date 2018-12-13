@@ -4,7 +4,6 @@
     <list default="true" id="9e61530a-afeb-4e2d-b962-9863a8d2cb20" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TradingModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/TradingModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,15 +31,15 @@
         <counts>
           <entry key="Python Console" value="907" />
           <entry key="main" value="279" />
-          <entry key="py" value="8546" />
+          <entry key="py" value="8582" />
           <entry key="test" value="3" />
-          <entry key="txt" value="120" />
+          <entry key="txt" value="126" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="120" />
-          <entry key="Python" value="9735" />
+          <entry key="PLAIN_TEXT" value="126" />
+          <entry key="Python" value="9771" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -72,13 +71,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TradingModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2410">
-              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+            <state relative-caret-position="-560">
+              <caret line="63" column="88" selection-start-line="63" selection-start-column="88" selection-end-line="63" selection-end-column="88" />
               <folding>
                 <element signature="e#87#105#0" expanded="true" />
-                <marker date="1544704272597" expanded="true" signature="2280:2450" ph="..." />
-                <marker date="1544704272597" expanded="true" signature="2560:2795" ph="..." />
-                <marker date="1544704272597" expanded="true" signature="3341:3347" ph="..." />
+                <marker date="1544704714868" expanded="true" signature="2280:2450" ph="..." />
+                <marker date="1544704714868" expanded="true" signature="2560:2799" ph="..." />
+                <marker date="1544704714868" expanded="true" signature="3345:3351" ph="..." />
               </folding>
             </state>
           </provider>
@@ -296,7 +295,14 @@
       <option name="project" value="LOCAL" />
       <updated>1544690822926</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="profit">
+      <created>1544704361804</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544704361804</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -342,7 +348,8 @@
     <MESSAGE value="Waive out GPy for now" />
     <MESSAGE value="AdaBoost Reg" />
     <MESSAGE value="problem fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="problem fix" />
+    <MESSAGE value="profit" />
+    <option name="LAST_COMMIT_MESSAGE" value="profit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -413,13 +420,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TradingModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2410">
-          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        <state relative-caret-position="-560">
+          <caret line="63" column="88" selection-start-line="63" selection-start-column="88" selection-end-line="63" selection-end-column="88" />
           <folding>
             <element signature="e#87#105#0" expanded="true" />
-            <marker date="1544704272597" expanded="true" signature="2280:2450" ph="..." />
-            <marker date="1544704272597" expanded="true" signature="2560:2795" ph="..." />
-            <marker date="1544704272597" expanded="true" signature="3341:3347" ph="..." />
+            <marker date="1544704714868" expanded="true" signature="2280:2450" ph="..." />
+            <marker date="1544704714868" expanded="true" signature="2560:2799" ph="..." />
+            <marker date="1544704714868" expanded="true" signature="3345:3351" ph="..." />
           </folding>
         </state>
       </provider>

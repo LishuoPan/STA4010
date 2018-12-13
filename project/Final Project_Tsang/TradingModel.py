@@ -61,12 +61,12 @@ class TradingModel:
         return model_bid, model_ask
     def AdaBoostReg_fit(self, X_tr, y_tr):
         Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2),
-                                            n_estimators=300,random_state=0,loss='linear')
+                                            n_estimators=300,random_state=0,loss='square')
         Ada_reg_model.fit(X_tr, y_tr)
         return Ada_reg_model
     def GradientBoosting(self, X_tr, y_tr):
         GB_model = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1,
-                                             max_depth = 1, random_state = 0, loss = 'ls')
+                                             max_depth = 1, random_state = 0, loss = 'square')
         GB_model.fit(X_tr, y_tr)
         return GB_model
     ##########################################################
