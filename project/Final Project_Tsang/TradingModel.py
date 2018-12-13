@@ -20,7 +20,7 @@ class TradingModel:
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
         self.money = money
-        self.train_size = 1000
+        self.train_size = 200
         self.pred_size = 20
         self.split = 30
         self.stock = list()
@@ -28,6 +28,8 @@ class TradingModel:
         self.inventory_Max = 50
         self.hold_max = np.inf
         self.resampling = 2
+        self.rng = 0
+        self.cautious = 0.999
         print("Money at the Begining of the day:", self.money)
 
     ##########################################################
@@ -60,12 +62,12 @@ class TradingModel:
         return model_bid, model_ask
     def AdaBoostReg_fit(self, X_tr, y_tr):
         Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2),
-                                            n_estimators=300,random_state=0,loss='square')
+                                            n_estimators=300,random_state=self.rng,loss='square')
         Ada_reg_model.fit(X_tr, y_tr)
         return Ada_reg_model
     def GradientBoosting(self, X_tr, y_tr):
         GB_model = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1,
-                                             max_depth = 1, random_state = 0, loss = 'square')
+                                             max_depth = 1, random_state = self.rng, loss = 'square')
         GB_model.fit(X_tr, y_tr)
         return GB_model
     ##########################################################
@@ -198,7 +200,7 @@ class TradingModel:
                 sum_pred_bid = 0
                 sum_pred_ask = 0
                 for re in range(self.resampling):
-                    [X_tr_t_B, y_tr_bid_B, y_tr_ask_B] = resample(X_tr_t, y_tr_bid, y_tr_ask)
+                    [X_tr_t_B, y_tr_bid_B, y_tr_ask_B] = resample(X_tr_t, y_tr_bid, y_tr_ask,random_state=self.rng)
 
 
                     # Fit AdaBoost regression model
@@ -227,7 +229,7 @@ class TradingModel:
                 # wether buy in stock or short sell
                 [Bid_pred_max, Bid_pred_min] = self.FindHL(y_bid_pred)
                 [Ask_pred_max, Ask_pred_min] = self.FindHL(y_ask_pred)
-                Buy_stock_indicator = Bid_pred_max*0.999 > Ask_t
+                Buy_stock_indicator = Bid_pred_max*self.cautious > Ask_t
                 Buy_short_sell_indicator = Ask_pred_min < Bid_t
 
 
@@ -253,11 +255,14 @@ class TradingModel:
 
 
                 # run though the current inventory to see if there is profit
-                # sell_stock_indicator = Bid_pred_max < Bid_t
-                # sell_short_sell_indicator = Ask_pred_min > Ask_t
-                # if sell_stock_indicator == True:
+                pred_tr_one_bid = np.hstack(([Bid_t],y_bid_pred))
+                pred_tr_one_ask = np.hstack(([Ask_t], y_ask_pred))
+                [Bid_pred_max_one_tr, Bid_pred_min_one_tr] = self.FindHL(pred_tr_one_bid)
+                [Ask_pred_max_one_tr, Ask_pred_min_one_tr] = self.FindHL(pred_tr_one_ask)
+
+                # if Bid_pred_max_one_tr == Bid_t:
                 self.sell_stock(Bid_t)
-                # if sell_short_sell_indicator == True:
+                # if Ask_pred_min_one_tr == Ask_t:
                 self.promise_short_sell(Ask_t)
 
 
