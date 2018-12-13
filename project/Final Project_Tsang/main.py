@@ -64,6 +64,7 @@ def StrucData(ls, cut = 1):
     time = np.linspace(1,train_time,train_time)
     data_matrix = np.hstack((time.reshape(-1,1),data_matrix))
     feature = data_matrix[:,(0,2,4)]
+    # feature = data_matrix[:, 0].reshape(-1,1)
     y_bid = data_matrix[:,1]
     y_ask = data_matrix[:, 3]
     # print(data_matrix)
@@ -79,10 +80,13 @@ def StrucData(ls, cut = 1):
 if __name__ == '__main__':
     cut = 1
     # read and structure training data
+    # [X_tr, y_bid, y_ask] = StrucData(["./training_data/Day1.csv",
+    #                                   "./training_data/Day2.csv",
+    #                                   "./training_data/Day3.csv",
+    #                                   "./training_data/Day4.csv"], cut)
     [X_tr, y_bid, y_ask] = StrucData(["./training_data/Day1.csv",
                                       "./training_data/Day2.csv",
-                                      "./training_data/Day3.csv",
-                                      "./training_data/Day4.csv"], cut)
+                                      "./training_data/Day3.csv"], cut)
     time_tr = X_tr.shape[0]
     # read and structure testing data
     [X_te, y_bid, y_ask] = StrucData(["./testing_data/Day5.csv"],cut)

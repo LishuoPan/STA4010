@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostRegressor
 
 # import GPy
 # construct packages
@@ -17,12 +19,17 @@ class TradingModel:
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
         self.money = money
-        self.train_size = 60
-        self.pred_size = 20
+        self.train_size = 100
+        self.pred_size = 10
         self.split = 4
         self.stock = list()
         self.short_sell = list()
         print("Money at the Begining of the day:", self.money)
+
+    ##########################################################
+    # Regression Part
+    ##########################################################
+
     def WLS_regression(self, X_tr, y_tr_bid, y_tr_ask, count_down=0.9, p=3):
         # weight matrix generation
         def weight_matrix(dim,count_down):
@@ -47,11 +54,16 @@ class TradingModel:
         model_ask.fit(weighted_X_tr, weighted_y_ask)
 
         return model_bid, model_ask
+    def AdaBoostReg_fit(self, X_tr, y_tr):
+        Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2),
+                                            n_estimators=300)
+        Ada_reg_model.fit(X_tr, y_tr)
+        return Ada_reg_model
 
 
-        pass
-    # def GaussianProcessRegression(self):
-    #     kern1 = GPy.kern.sde_StdPeriodic()
+    ##########################################################
+    # Model behavior Part
+    ##########################################################
 
     def sell_stock(self,y_bid):
         for index, eval in self.stock:
@@ -101,7 +113,7 @@ class TradingModel:
         start = t+1
         end = start+self.pred_size
         index = np.arange(start,end)
-        return X_te[index,:]
+        return X_te[index,:], index
 
 
     def settle_accounts(self,y_bid_end,y_ask_end):
@@ -135,10 +147,20 @@ class TradingModel:
             else:
                 # prediction
                 [X_tr_t, y_tr_bid, y_tr_ask] = self.Train_Matrix_t(t,X_te,y_bid,y_ask)
-                [WLS_model_bid, WLS_model_ask] = self.WLS_regression(X_tr_t,y_tr_bid,y_tr_ask,p=1)
-                X_pred = self.Test_Matrix_t(t,X_te)
-                bid_pred = WLS_model_bid.predict(X_pred)
-                ask_pred = WLS_model_ask.predict(X_pred)
+
+                # Fit AdaBoost regression model
+                AdaReg_bid_fit = self.AdaBoostReg_fit(X_tr_t, y_tr_bid)
+                AdaReg_ask_fit = self.AdaBoostReg_fit(X_tr_t, y_tr_ask)
+
+                # construct the foresee test data
+                [X_pred,index_te] = self.Test_Matrix_t(t,X_te)
+                # predict the future time of pred_size
+                y_bid_pred = AdaReg_bid_fit.predict(X_pred)
+                y_ask_pred = AdaReg_ask_fit.predict(X_pred)
+
+                # After the prediction,
+                # the process model will decide
+                # wether buy in stock or short sell
 
 
 
