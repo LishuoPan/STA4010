@@ -19,9 +19,9 @@ class TradingModel:
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
         self.money = money
-        self.train_size = 100
+        self.train_size = 200
         self.pred_size = 10
-        self.split = 4
+        self.split = 20
         self.stock = list()
         self.short_sell = list()
         print("Money at the Begining of the day:", self.money)
@@ -55,8 +55,8 @@ class TradingModel:
 
         return model_bid, model_ask
     def AdaBoostReg_fit(self, X_tr, y_tr):
-        Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2),
-                                            n_estimators=300)
+        Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=4),
+                                            n_estimators=500)
         Ada_reg_model.fit(X_tr, y_tr)
         return Ada_reg_model
 
@@ -64,19 +64,35 @@ class TradingModel:
     ##########################################################
     # Model behavior Part
     ##########################################################
+    def FindHL(self, pred):
+        High = np.max(pred)
+        Low = np.min(pred)
+        return High, Low
+    def buy_stock(self,Ask_t, inven):
+        price = Ask_t
+        share = inven/Ask_t
+        self.stock.append([price, share])
+        self.money -= inven
+
+    def buy_short_sell(self,Bid_t, inven):
+        price = Bid_t
+        share = inven/Bid_t
+        self.short_sell.append([price, share])
+        self.money += inven
+
 
     def sell_stock(self,y_bid):
-        for index, eval in self.stock:
+        for index, eval in enumerate(self.stock):
             price = eval[0]
             share = eval[1]
             earn = y_bid - price
             # exercise once have profit
             if earn > 0:
-                self.money += earn * share
+                self.money += y_bid * share
                 self.stock.pop(index)
 
     def promise_short_sell(self,y_ask):
-        for index, eval in self.short_sell:
+        for index, eval in enumerate(self.short_sell):
             price = eval[0]
             share = eval[1]
             earn = price - y_ask
@@ -110,8 +126,12 @@ class TradingModel:
             y_tr_ask = np.hstack((y_tr_ask_part1, y_tr_ask_part2))
             return X_tr, y_tr_bid, y_tr_ask
     def Test_Matrix_t(self, t, X_te):
+        n = len(X_te)
         start = t+1
-        end = start+self.pred_size
+        if (start+self.pred_size) >= n:
+            end = n
+        else:
+            end = start+self.pred_size
         index = np.arange(start,end)
         return X_te[index,:], index
 
@@ -131,13 +151,13 @@ class TradingModel:
         else:
             self.money += own_share * y_ask_end
 
-    def process(self,X_te,y_bid,y_ask):
+    def process(self,X_te,y_te_bid,y_te_ask):
         tol_t = len(X_te)
         # For each processing time
         for t in range(tol_t):
             # At the end of the day
             if t == tol_t - 1:
-                self.settle_accounts(y_bid[t],y_ask[t])
+                self.settle_accounts(y_te_bid[t],y_te_ask[t])
                 print("At the end of the day:", self.money)
 
 
@@ -146,7 +166,8 @@ class TradingModel:
             # append a [price, share] to list
             else:
                 # prediction
-                [X_tr_t, y_tr_bid, y_tr_ask] = self.Train_Matrix_t(t,X_te,y_bid,y_ask)
+                [X_tr_t, y_tr_bid, y_tr_ask] = \
+                    self.Train_Matrix_t(t,X_te,y_te_bid,y_te_ask)
 
                 # Fit AdaBoost regression model
                 AdaReg_bid_fit = self.AdaBoostReg_fit(X_tr_t, y_tr_bid)
@@ -161,12 +182,34 @@ class TradingModel:
                 # After the prediction,
                 # the process model will decide
                 # wether buy in stock or short sell
+                [Bid_pred_max, Bid_pred_min] = self.FindHL(y_bid_pred)
+                [Ask_pred_max, Ask_pred_min] = self.FindHL(y_ask_pred)
+                [Bid_t, Ask_t] = [y_te_bid[t],y_te_ask[t]]
+                Buy_stock_indicator = Bid_pred_max > Ask_t
+                Buy_short_sell_indicator = Ask_pred_min < Bid_t
 
+                # plt.plot(y_bid_pred)
+                # plt.plot(y_te_bid[index_te])
+                # plt.show()
+                # Money you willing to pay at this round
+                if self.money>0:
+                    inven = self.money/self.split
+
+                    if Buy_stock_indicator == True:
+                        self.buy_stock(Ask_t, inven*0.3)
+
+                    if Buy_short_sell_indicator == True:
+                        self.buy_short_sell(Bid_t, inven*0.7)
 
 
                 # run though the current inventory to see if there is profit
-                self.sell_stock(y_bid[t])
-                self.promise_short_sell(y_ask[t])
+                self.sell_stock(y_te_bid[t])
+                self.promise_short_sell(y_te_ask[t])
+
+
+                print("At time:", t,"you have money:",self.money,
+                      "stock:",len(self.stock),"short:",len(self.short_sell))
+
 
                 # decide if buy in stock or short sell at this time
 
