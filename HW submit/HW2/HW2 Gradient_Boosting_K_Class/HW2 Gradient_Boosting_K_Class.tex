@@ -1,0 +1,547 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{HW2 Gradient\_Boosting\_K\_Class}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{t1}{%
+\section{T1}\label{t1}}
+
+\hypertarget{the-first-part-is-the-implement-of-the-algorithm-as-a-class-in-python.-i-use-the-sub-model-as-regression-tree-with-max-depth-2.}{%
+\subsection{The first part is the implement of the algorithm as a class
+in python. I use the sub-model as regression tree with max depth
+2.}\label{the-first-part-is-the-implement-of-the-algorithm-as-a-class-in-python.-i-use-the-sub-model-as-regression-tree-with-max-depth-2.}}
+
+\hypertarget{the-second-part-is-the-apply-the-algorithm-on-the-dataset-specified-in-the-hw1}{%
+\subsection{the second part is the apply the algorithm on the dataset
+specified in the
+HW1}\label{the-second-part-is-the-apply-the-algorithm-on-the-dataset-specified-in-the-hw1}}
+
+\hypertarget{i-also-plot-the-accuracy-vs-number-of-iterations-in-the-plot.}{%
+\subsection{I also plot the Accuracy vs number of iterations in the
+plot.}\label{i-also-plot-the-accuracy-vs-number-of-iterations-in-the-plot.}}
+
+\hypertarget{and-print-out-the-accuracy-number-of-iterations}{%
+\subsection{and print out the Accuracy \& number of
+iterations}\label{and-print-out-the-accuracy-number-of-iterations}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} coding: utf\PYZhy{}8}
+        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline 
+        \PY{c+c1}{\PYZsh{} import the basic packages for the problem}
+        \PY{c+c1}{\PYZsh{} no fancy packages.}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn} \PY{k}{import} \PY{n}{tree}
+        \PY{c+c1}{\PYZsh{} this package is used to plot the result}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        
+        \PY{c+c1}{\PYZsh{} Here I define a class as an agent to do}
+        \PY{c+c1}{\PYZsh{} Gradient Boosting for K\PYZhy{}Class Classification}
+        \PY{k}{class} \PY{n+nc}{K\PYZus{}GBoost}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{X}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{n}{M}\PY{p}{,}\PY{n}{element}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Input:}
+                \PY{c+c1}{\PYZsh{} X: X train matrix dimention: n by d}
+                \PY{c+c1}{\PYZsh{} y: y train: n by 1}
+                \PY{c+c1}{\PYZsh{} M: integer, the loop number}
+                \PY{c+c1}{\PYZsh{} init: initial f vector: K by 1}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{X} \PY{o}{=} \PY{n}{X}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y} \PY{o}{=} \PY{n}{y}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter} \PY{o}{=} \PY{n}{M}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{element}\PY{p}{)}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{element} \PY{o}{=} \PY{n}{element}
+                
+                
+            \PY{n+nd}{@staticmethod} 
+            \PY{c+c1}{\PYZsh{} this function is weighted sum}
+            \PY{c+c1}{\PYZsh{} to compute fk}
+            \PY{k}{def} \PY{n+nf}{f\PYZus{}val}\PY{p}{(}\PY{n}{f\PYZus{}set}\PY{p}{,} \PY{n}{X}\PY{p}{,}\PY{n}{k}\PY{p}{)}\PY{p}{:}
+                \PY{n}{f} \PY{o}{=} \PY{l+m+mi}{0}
+                \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{f\PYZus{}set}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{f} \PY{o}{+}\PY{o}{=} \PY{n}{f\PYZus{}set}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{)}
+                \PY{k}{return} \PY{n}{f}
+            
+            \PY{n+nd}{@staticmethod}
+            \PY{c+c1}{\PYZsh{} this method is aimed to compute the P matrix}
+            \PY{k}{def} \PY{n+nf}{p}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{f}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} f.dtype = \PYZdq{}float64\PYZdq{}}
+                \PY{c+c1}{\PYZsh{} print(f)}
+                \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{f}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{f}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+        
+            \PY{n+nd}{@staticmethod}
+            \PY{c+c1}{\PYZsh{} this funtion is aimed to convert the y vector}
+            \PY{c+c1}{\PYZsh{} into the indicator vector}
+            \PY{k}{def} \PY{n+nf}{y\PYZus{}indicator}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{element}\PY{p}{)}\PY{p}{:}
+                \PY{n}{z} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+                \PY{n}{targat} \PY{o}{=} \PY{n}{element}\PY{p}{[}\PY{n}{k}\PY{p}{]}
+                \PY{n}{index} \PY{o}{=} \PY{n}{z} \PY{o}{==} \PY{n}{targat}
+                \PY{n}{z}\PY{p}{[}\PY{n}{index}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{rev} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{o+ow}{not} \PY{n}{i} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{index}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{)}
+                \PY{n}{z}\PY{p}{[}\PY{n}{rev}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+                \PY{k}{return} \PY{n}{z}
+            \PY{n+nd}{@staticmethod}
+            \PY{c+c1}{\PYZsh{} this method is try to compute the current f:}
+            \PY{c+c1}{\PYZsh{} i.e. f\PYZus{}km}
+            \PY{k}{def} \PY{n+nf}{cur\PYZus{}f}\PY{p}{(}\PY{n}{reg\PYZus{}tree}\PY{p}{,} \PY{n}{gamma}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{reg\PYZus{}room}\PY{p}{)}\PY{p}{:}
+                \PY{n}{pred} \PY{o}{=} \PY{n}{reg\PYZus{}tree}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+                \PY{n}{f\PYZus{}val} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+                \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{val} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{pred}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{in\PYZus{}index} \PY{o}{=} \PY{n}{reg\PYZus{}room} \PY{o}{==} \PY{n}{val}
+                    \PY{n}{f\PYZus{}val}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{gamma}\PY{p}{[}\PY{n}{in\PYZus{}index}\PY{p}{]}
+                \PY{k}{return} \PY{n}{f\PYZus{}val}
+        
+            \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{}\PYZsh{} Here preallocate some 2\PYZhy{}D list or Matrix we will use later}
+                \PY{c+c1}{\PYZsh{} initial the F and P matrix, both are n by k}
+                \PY{n}{F} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} k\PYZus{}f\PYZus{}set is a collection of classifier for the k class}
+                \PY{c+c1}{\PYZsh{} add the init classifier to the f\PYZus{}set, return 0 column}
+                \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{k\PYZus{}f\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{k}{lambda} \PY{n}{X}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{m}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{]} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter}
+                    \PY{n}{F}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{k\PYZus{}f\PYZus{}set}\PY{p}{)}
+                \PY{k}{assert} \PY{n+nb}{len}\PY{p}{(}\PY{n}{F}\PY{p}{)} \PY{o}{==} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K} \PY{o+ow}{and} \PY{n+nb}{len}\PY{p}{(}\PY{n}{F}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter}
+        
+                \PY{n}{P} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} these is to store the tree, gamma, rooms}
+                \PY{n}{reg\PYZus{}tree\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{]}
+                \PY{n}{gamma\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{]}
+                \PY{n}{reg\PYZus{}rooms\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{]}
+        
+                \PY{c+c1}{\PYZsh{} Set the P\PYZus{}k matrix in every iteration}
+                \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{Max\PYZus{}iter}\PY{p}{)}\PY{p}{:}
+        
+                    \PY{n}{f} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{)}
+                    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+                        \PY{n}{f}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{k}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{f\PYZus{}val}\PY{p}{(}\PY{n}{F}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{X}\PY{p}{,}\PY{n}{k}\PY{p}{)}
+                    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+                        \PY{n}{P} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{p}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{f}\PY{p}{)}
+        
+                    \PY{c+c1}{\PYZsh{}\PYZsh{} update f}
+                    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+                        \PY{c+c1}{\PYZsh{} k\PYZus{}f\PYZus{}set = F[k]}
+                        \PY{c+c1}{\PYZsh{} f = self.f\PYZus{}val(k\PYZus{}f\PYZus{}set, self.X)}
+                        \PY{c+c1}{\PYZsh{} assert len(f) == self.X.shape[0]}
+                        \PY{c+c1}{\PYZsh{} \PYZsh{} set pk}
+                        \PY{c+c1}{\PYZsh{} P[:,k] = self.p(f)}
+                        \PY{n}{pk} \PY{o}{=} \PY{n}{P}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{o}{.}\PY{n}{T}
+        
+                        \PY{n}{y\PYZus{}k} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y\PYZus{}indicator}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{element}\PY{p}{)}
+                        \PY{n}{rk} \PY{o}{=} \PY{n}{y\PYZus{}k} \PY{o}{\PYZhy{}} \PY{n}{pk}
+        
+                        \PY{c+c1}{\PYZsh{} Use a simple tree in each sub\PYZhy{}classifier Max depth is 2.}
+                        \PY{n}{reg\PYZus{}tree\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]} \PY{o}{=} \PY{n}{tree}\PY{o}{.}\PY{n}{DecisionTreeRegressor}\PY{p}{(}\PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+                        \PY{n}{reg\PYZus{}tree\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]} \PY{o}{=} \PY{n}{reg\PYZus{}tree\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{X}\PY{p}{,} \PY{n}{rk}\PY{p}{)}
+        
+                        \PY{c+c1}{\PYZsh{} all prediction value}
+                        \PY{n}{reg\PYZus{}X\PYZus{}train} \PY{o}{=} \PY{n}{reg\PYZus{}tree\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{X}\PY{p}{)}
+                        \PY{c+c1}{\PYZsh{} reg\PYZus{}X\PYZus{}train = np.array(reg\PYZus{}X\PYZus{}train,dtype = \PYZdq{}float16\PYZdq{})}
+                        \PY{c+c1}{\PYZsh{} reg\PYZus{}room is the distinct regression value in increasing manner}
+                        \PY{n}{reg\PYZus{}rooms\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{reg\PYZus{}X\PYZus{}train}\PY{p}{)}
+                        \PY{c+c1}{\PYZsh{} preallocation the gamma vector}
+                        \PY{n}{gamma\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{reg\PYZus{}rooms\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                        \PY{c+c1}{\PYZsh{} compute the gamma\PYZus{}jkm}
+                        \PY{k}{for} \PY{n}{j}\PY{p}{,} \PY{n}{room\PYZus{}num} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{reg\PYZus{}rooms\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+                            \PY{n}{cur\PYZus{}cluster} \PY{o}{=} \PY{n}{reg\PYZus{}rooms\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{[}\PY{n}{j}\PY{p}{]}
+                            \PY{c+c1}{\PYZsh{} index of X\PYZus{}train fell into the j\PYZhy{}th room}
+                            \PY{n}{index\PYZus{}X\PYZus{}in} \PY{o}{=} \PY{n}{reg\PYZus{}X\PYZus{}train} \PY{o}{==} \PY{n}{cur\PYZus{}cluster}
+                            \PY{n}{nu} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{rk}\PY{p}{[}\PY{n}{index\PYZus{}X\PYZus{}in}\PY{p}{]}\PY{p}{)}
+                            \PY{n}{de} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{rk}\PY{p}{[}\PY{n}{index\PYZus{}X\PYZus{}in}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{rk}\PY{p}{[}\PY{n}{index\PYZus{}X\PYZus{}in}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                            \PY{n}{gamma\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{/} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{nu}\PY{o}{/}\PY{n}{de}\PY{p}{)}
+                        \PY{c+c1}{\PYZsh{} store the sub\PYZhy{}f\PYZus{}km in the F matrix}
+                        \PY{n}{F}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{o}{=}\PY{k}{lambda} \PY{n}{X}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{m}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{cur\PYZus{}f}\PY{p}{(}\PY{n}{reg\PYZus{}tree\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{,} \PY{n}{gamma\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{reg\PYZus{}rooms\PYZus{}set}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{m}\PY{p}{]}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} Store the F matrix as global in the class}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{f\PYZus{}model} \PY{o}{=} \PY{n}{F}
+        
+            \PY{c+c1}{\PYZsh{}\PYZsh{} this method is to predict the f(X) given X matrix}
+            \PY{k}{def} \PY{n+nf}{predict}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{X}\PY{p}{)}\PY{p}{:}
+                \PY{n}{pred} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{k\PYZus{}model} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{f\PYZus{}model}\PY{p}{[}\PY{n}{k}\PY{p}{]}
+                    \PY{n}{pred}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{k}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{f\PYZus{}val}\PY{p}{(}\PY{n}{k\PYZus{}model}\PY{p}{,}\PY{n}{X}\PY{p}{,}\PY{n}{k}\PY{p}{)}
+                \PY{k}{return} \PY{n}{pred}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k}{if} \PY{n+nv+vm}{\PYZus{}\PYZus{}name\PYZus{}\PYZus{}} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}\PYZus{}main\PYZus{}\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        
+            \PY{c+c1}{\PYZsh{} fix the seed}
+            \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{}\PYZsh{} generate the dataset}
+            \PY{c+c1}{\PYZsh{} the dimension and size of the data}
+            \PY{n}{p} \PY{o}{=} \PY{l+m+mi}{10}
+            \PY{n}{n\PYZus{}train} \PY{o}{=} \PY{l+m+mi}{2000}
+            \PY{n}{n\PYZus{}test} \PY{o}{=} \PY{l+m+mi}{200}
+        
+        
+            \PY{c+c1}{\PYZsh{} two distribution we sample data from}
+            \PY{n}{mu1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{n}{p}\PY{p}{)}
+            \PY{n}{sigma1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{p}\PY{p}{)}
+            \PY{n}{mu2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{n}{p}\PY{p}{)}
+            \PY{n}{sigma2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{p}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} construct the training dataset}
+            \PY{n}{train\PYZus{}x1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{multivariate\PYZus{}normal}\PY{p}{(}\PY{n}{mu1}\PY{p}{,}\PY{n}{sigma1}\PY{p}{,}\PY{n}{n\PYZus{}train}\PY{p}{)}
+            \PY{n}{train\PYZus{}y1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{n\PYZus{}train}\PY{p}{)}
+        
+            \PY{n}{train\PYZus{}x2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{multivariate\PYZus{}normal}\PY{p}{(}\PY{n}{mu2}\PY{p}{,}\PY{n}{sigma2}\PY{p}{,}\PY{n}{n\PYZus{}train}\PY{p}{)}
+            \PY{n}{train\PYZus{}y2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{n\PYZus{}train}\PY{p}{)}
+        
+            \PY{n}{train\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{(}\PY{n}{train\PYZus{}x1}\PY{p}{,}\PY{n}{train\PYZus{}x2}\PY{p}{)}\PY{p}{)}
+            \PY{n}{train\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{(}\PY{n}{train\PYZus{}y1}\PY{p}{,}\PY{n}{train\PYZus{}y2}\PY{p}{)}\PY{p}{)}
+        
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{the size of the training dataset is:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{train\PYZus{}x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{train\PYZus{}y}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} constructing the testing dataset}
+            \PY{n}{test\PYZus{}x1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{multivariate\PYZus{}normal}\PY{p}{(}\PY{n}{mu1}\PY{p}{,}\PY{n}{sigma1}\PY{p}{,}\PY{n}{n\PYZus{}test}\PY{p}{)}
+            \PY{n}{test\PYZus{}y1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{n\PYZus{}test}\PY{p}{)}
+        
+            \PY{n}{test\PYZus{}x2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{multivariate\PYZus{}normal}\PY{p}{(}\PY{n}{mu2}\PY{p}{,}\PY{n}{sigma2}\PY{p}{,}\PY{n}{n\PYZus{}test}\PY{p}{)}
+            \PY{n}{test\PYZus{}y2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{n\PYZus{}test}\PY{p}{)}
+        
+            \PY{n}{test\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{(}\PY{n}{test\PYZus{}x1}\PY{p}{,}\PY{n}{test\PYZus{}x2}\PY{p}{)}\PY{p}{)}
+            \PY{n}{test\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{(}\PY{n}{test\PYZus{}y1}\PY{p}{,}\PY{n}{test\PYZus{}y2}\PY{p}{)}\PY{p}{)}
+        
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{the size of the testing dataset is:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{test\PYZus{}x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{test\PYZus{}y}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} define the distinct element \PYZam{} class K}
+            \PY{n}{element} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{train\PYZus{}y}\PY{p}{)}
+            \PY{n}{K} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{element}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} Make two List: iteration list and Acu list.}
+            \PY{c+c1}{\PYZsh{} Used to plot}
+            \PY{n}{M} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{21}\PY{p}{)}
+            \PY{n}{Acu} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{M}\PY{p}{)}\PY{p}{)}
+        
+            \PY{k}{for} \PY{n}{trial}\PY{p}{,}\PY{n+nb}{iter} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{M}\PY{p}{)}\PY{p}{:}
+                \PY{n}{GBoost} \PY{o}{=} \PY{n}{K\PYZus{}GBoost}\PY{p}{(}\PY{n}{train\PYZus{}x}\PY{p}{,}\PY{n}{train\PYZus{}y}\PY{p}{,}\PY{n+nb}{iter}\PY{p}{,}\PY{n}{element}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} print(\PYZdq{}the Gradient Boosting model is training...\PYZdq{})}
+                \PY{n}{model} \PY{o}{=} \PY{n}{GBoost}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} print(\PYZdq{}prediction start...\PYZdq{})}
+                \PY{n}{pred} \PY{o}{=} \PY{n}{GBoost}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{test\PYZus{}x}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} print(pred)}
+                \PY{n}{pred\PYZus{}class} \PY{o}{=} \PY{n}{GBoost}\PY{o}{.}\PY{n}{p}\PY{p}{(}\PY{n}{K}\PY{p}{,}\PY{n}{pred}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} print(pred\PYZus{}class)}
+                \PY{c+c1}{\PYZsh{} Accuracy}
+                \PY{n}{pred\PYZus{}final} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{test\PYZus{}y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{i}\PY{p}{,}\PY{n}{val} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{pred\PYZus{}class}\PY{p}{)}\PY{p}{:}
+                    \PY{k}{if} \PY{n}{val}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZgt{}}\PY{n}{val}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+                        \PY{n}{pred\PYZus{}final}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+                    \PY{k}{else}\PY{p}{:}
+                        \PY{n}{pred\PYZus{}final}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+                \PY{n}{Acu}\PY{p}{[}\PY{n}{trial}\PY{p}{]} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{pred\PYZus{}final}\PY{o}{==}\PY{n}{test\PYZus{}y}\PY{p}{)}\PY{o}{/}\PY{n+nb}{len}\PY{p}{(}\PY{n}{test\PYZus{}y}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} print the iteration and corresponding Acu}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the iteration List:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{M}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the Accuracy List:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{Acu}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} plot the result}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{M}\PY{p}{,}\PY{n}{Acu}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the iteration number}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the Accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+the size of the training dataset is:
+ (4000, 10)
+(4000,)
+the size of the testing dataset is:
+ (400, 10)
+(400,)
+the iteration List:
+ [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20]
+the Accuracy List:
+ [0.5    0.6975 0.7175 0.805  0.84   0.85   0.875  0.8725 0.89   0.9025
+ 0.9025 0.9075 0.9025 0.8975 0.9    0.9    0.9025 0.9125 0.9175 0.9175
+ 0.9175]
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_2_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
