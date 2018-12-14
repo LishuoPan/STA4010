@@ -19,17 +19,20 @@ class TradingModel:
         self.y_tr_bid = y_bid
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
+        self.init_money = money
         self.money = money
         self.train_size = 200
         self.pred_size = 20
-        self.split = 30
+        self.split = 3
+        self.safe_lock = 0
         self.stock = list()
         self.short_sell = list()
         self.inventory_Max = 50
         self.hold_max = np.inf
         self.resampling = 2
         self.rng = 0
-        self.cautious = 0.999
+        self.cautious_stock = 0.999
+        self.cautious_short_sell = 1
         print("Money at the Begining of the day:", self.money)
 
     ##########################################################
@@ -61,7 +64,7 @@ class TradingModel:
 
         return model_bid, model_ask
     def AdaBoostReg_fit(self, X_tr, y_tr):
-        Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2),
+        Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2,random_state=self.rng),
                                             n_estimators=300,random_state=self.rng,loss='square')
         Ada_reg_model.fit(X_tr, y_tr)
         return Ada_reg_model
@@ -229,8 +232,8 @@ class TradingModel:
                 # wether buy in stock or short sell
                 [Bid_pred_max, Bid_pred_min] = self.FindHL(y_bid_pred)
                 [Ask_pred_max, Ask_pred_min] = self.FindHL(y_ask_pred)
-                Buy_stock_indicator = Bid_pred_max*self.cautious > Ask_t
-                Buy_short_sell_indicator = Ask_pred_min < Bid_t
+                Buy_stock_indicator = Bid_pred_max*self.cautious_stock > Ask_t
+                Buy_short_sell_indicator = Ask_pred_min < Bid_t*self.cautious_short_sell
 
 
                 # f = plt.figure()
@@ -245,7 +248,10 @@ class TradingModel:
 
                 # Money you willing to pay at this round
                 if self.money>0:
-                    inven = self.money/self.split
+                    if self.safe_lock == 1:
+                        inven = np.minimum((self.money/self.split),self.init_money)
+                    else:
+                        inven = self.money / self.split
 
                     if Buy_stock_indicator == True:
                         self.buy_stock(Ask_t, inven*0.3)

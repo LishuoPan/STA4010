@@ -77,7 +77,7 @@ def StrucData(ls, cut = 1):
 
 
 if __name__ == '__main__':
-    cut = 0
+    cut = 1
     # read and structure training data
 
     # [X_tr, y_bid_tr, y_ask_tr] = StrucData(["./training_data/Day1.csv",
