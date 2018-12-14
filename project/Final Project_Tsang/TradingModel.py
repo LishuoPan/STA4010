@@ -23,7 +23,7 @@ class TradingModel:
         self.money = money
         self.train_size = 200
         self.pred_size = 20
-        self.split = 3
+        self.split = 5
         self.safe_lock = 0
         self.stock = list()
         self.short_sell = list()
