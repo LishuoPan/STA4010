@@ -15,7 +15,7 @@ from sklearn.utils import resample
 # import GPy
 # construct packages
 class TradingModel:
-    def __init__(self, X_tr, y_bid, y_ask, money):
+    def __init__(self, X_tr, y_bid, y_ask, money, SafeGaurd, Split):
         self.y_tr_bid = y_bid
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
@@ -23,8 +23,8 @@ class TradingModel:
         self.money = money
         self.train_size = 200
         self.pred_size = 20
-        self.split = 5
-        self.safe_lock = 0
+        self.split = Split
+        self.safe_lock = SafeGaurd
         self.stock = list()
         self.short_sell = list()
         self.inventory_Max = 50

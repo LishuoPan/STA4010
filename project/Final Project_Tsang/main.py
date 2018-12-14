@@ -93,7 +93,12 @@ if __name__ == '__main__':
     [X_te, y_bid_te, y_ask_te] = StrucData(["./testing_data/Day4.csv"],cut)
     # add the past time to the test data
     X_te[:,0] = X_te[:,0]+time_tr
-    Model = TradingModel(X_tr,y_bid_tr,y_ask_tr,100)
+
+    #### process start.
+    SafeGaurd = 0
+    Split = 5
+    Model = TradingModel(X_tr,y_bid_tr,y_ask_tr,money=100,
+                         SafeGaurd = SafeGaurd,Split = Split)
     Model.process(X_te,y_bid_te,y_ask_te)
 
     # model = TradingModel()
