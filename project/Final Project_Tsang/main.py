@@ -80,17 +80,17 @@ if __name__ == '__main__':
     cut = 0
     # read and structure training data
 
-    # [X_tr, y_bid_tr, y_ask_tr] = StrucData(["./training_data/Day1.csv",
-    #                                         "./training_data/Day2.csv",
-    #                                         "./training_data/Day3.csv",
-    #                                         "./training_data/Day4.csv"], cut)
-
     [X_tr, y_bid_tr, y_ask_tr] = StrucData(["./training_data/Day1.csv",
                                             "./training_data/Day2.csv",
-                                            "./training_data/Day3.csv"], cut)
+                                            "./training_data/Day3.csv",
+                                            "./training_data/Day4.csv"], cut)
+
+    # [X_tr, y_bid_tr, y_ask_tr] = StrucData(["./training_data/Day1.csv",
+    #                                         "./training_data/Day2.csv",
+    #                                         "./training_data/Day3.csv"], cut)
     time_tr = X_tr.shape[0]
     # read and structure testing data
-    [X_te, y_bid_te, y_ask_te] = StrucData(["./testing_data/Day4.csv"],cut)
+    [X_te, y_bid_te, y_ask_te] = StrucData(["./testing_data/Day5.csv"],cut)
     # add the past time to the test data
     X_te[:,0] = X_te[:,0]+time_tr
 
