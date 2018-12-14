@@ -16,6 +16,7 @@ from sklearn.utils import resample
 # construct packages
 class TradingModel:
     def __init__(self, X_tr, y_bid, y_ask, money, SafeGaurd, Split):
+        # Set hyper-parameters introduced in the model
         self.y_tr_bid = y_bid
         self.y_tr_ask = y_ask
         self.X_tr = X_tr
@@ -64,11 +65,13 @@ class TradingModel:
 
         return model_bid, model_ask
     def AdaBoostReg_fit(self, X_tr, y_tr):
+        # Contructing AdaBoostReg
         Ada_reg_model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=2,random_state=self.rng),
                                             n_estimators=300,random_state=self.rng,loss='square')
         Ada_reg_model.fit(X_tr, y_tr)
         return Ada_reg_model
     def GradientBoosting(self, X_tr, y_tr):
+        # Contructing GradientBoostingReg
         GB_model = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1,
                                              max_depth = 1, random_state = self.rng, loss = 'square')
         GB_model.fit(X_tr, y_tr)
@@ -77,10 +80,12 @@ class TradingModel:
     # Model behavior Part
     ##########################################################
     def FindHL(self, pred):
+        # find the Highest and Lowest value of input pred vector.
         High = np.max(pred)
         Low = np.min(pred)
         return High, Low
     def buy_stock(self,Ask_t, inven):
+        # Buy in stocks when conditions meet
         if len(self.stock) < self.inventory_Max:
             price = Ask_t
             share = inven/Ask_t
@@ -91,6 +96,7 @@ class TradingModel:
             pass
 
     def buy_short_sell(self,Bid_t, inven):
+        # Buy in short sellings when conditions meet
         if len(self.short_sell) < self.inventory_Max:
             price = Bid_t
             share = inven/Bid_t
@@ -101,6 +107,7 @@ class TradingModel:
             pass
 
     def sell_stock(self,y_bid):
+        # go though all stocks holden. Exercise the profit ones
         for index, eval in enumerate(self.stock):
             price = eval[0]
             share = eval[1]
@@ -116,6 +123,7 @@ class TradingModel:
                 self.stock.pop(index)
 
     def promise_short_sell(self,y_ask):
+        # go though all short selling holden. Exercise the profit ones
         for index, eval in enumerate(self.short_sell):
             price = eval[0]
             share = eval[1]
@@ -131,11 +139,19 @@ class TradingModel:
                 self.short_sell.pop(index)
 
     def Train_Matrix_t(self,t,X_te,y_bid,y_ask):
+        # This module construct the training data
+        # we will us in the time t.
+        # Look back into the training data and past test data.
+        # Size is of self.train_size
+
+        # if the whole training window is in the passed test data.
         if t+1 >= self.train_size:
             start_tr = t+1-self.train_size
             end_tr = t+1
             index = np.arange(start_tr, end_tr)
             return X_te[index,:], y_bid[index], y_ask[index]
+        # If the whole training window is exceed the passed test data.
+        # Then we would consider the training data put into training window.
         else:
             n = self.X_tr.shape[0]
             start_tr_1 = t+1-self.train_size
@@ -155,6 +171,9 @@ class TradingModel:
             y_tr_ask = np.hstack((y_tr_ask_part1, y_tr_ask_part2))
             return X_tr, y_tr_bid, y_tr_ask
     def Test_Matrix_t(self, t, X_te):
+        # This module construct the testing data
+        # we will make prediction at time t
+        # Size of self.pred_size.
         n = len(X_te)
         start = t+1
         if (start+self.pred_size) >= n:
@@ -166,6 +185,9 @@ class TradingModel:
 
 
     def settle_accounts(self,y_bid_end,y_ask_end):
+        # This module is called at the end of the day.
+        # Sell out all the holden stocks and
+        # exercise all the holden short sellings
         stock_share = 0
         short_sell_share = 0
 
@@ -179,7 +201,10 @@ class TradingModel:
             self.money += own_share * y_bid_end
         else:
             self.money += own_share * y_ask_end
-
+    ####################################################
+    ## This part is the process function.
+    ## process though the data point on Day5.
+    ####################################################
     def process(self,X_te,y_te_bid,y_te_ask):
         tol_t = len(X_te)
         # For each processing time
@@ -271,7 +296,7 @@ class TradingModel:
                 # if Ask_pred_min_one_tr == Ask_t:
                 self.promise_short_sell(Ask_t)
 
-
+                # Print the money at the end of the day.
                 print("At time:", t,"you have money:",self.money,
                       "stock:",len(self.stock),"short:",len(self.short_sell))
 
